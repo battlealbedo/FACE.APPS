@@ -1,0 +1,3 @@
+[submodule "CGV.APPS"]
+    path = CGV.APPS
+    url = https://github.com/battlealbedo/CGV.APPS
