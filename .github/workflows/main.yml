@@ -29,7 +29,20 @@ jobs:
         unzip chromedriver_linux64.zip -d /usr/local/bin/
         rm chromedriver_linux64.zip
 
+    - name: Install ChromeDriver
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y chromium-chromedriver
+
     - name: Run CGV script
       run: python /home/runner/work/CGV.APPS/CGV.APPS/cgv.py
 
+<<<<<<< HEAD
       
+=======
+
+
+
+
+
+>>>>>>> b7444dda0b62994db3d05036c9a9e700313d8414

@@ -6,20 +6,20 @@ import datetime
 import random
 import telepot
 
-token = "7240374983:AAFEAeYlxEFLIaUzeGRVT-OumAk7FjLbIhA"
-mc = "7265170310"
-bot = telepot.Bot(token=token)
+token = "7240374983:AAFEAeYlxEFLIaUzeGRVT-OumAk7FjLbIhA"  # 텔레봇 토큰
+mc = "7265170310"  # 공개방
+# mc = "7265170310" # 나 혼자
+bot = telepot.Bot(token="7240374983:AAFEAeYlxEFLIaUzeGRVT-OumAk7FjLbIhA")
 
 movie = "비틀쥬스 비틀쥬스"
 date = "20240909"
 url = f"https://m.cgv.co.kr/WebApp/Reservation/schedule.aspx?tc=0013&rc=01&ymd={date}&fst=&fet=&fsrc="
 
 user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1'
-options = webdriver.ChromeOptions()
-options.add_argument("--headless")
-options.add_argument(f"user-agent={user_agent}")
-
-driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+option = webdriver.FirefoxOptions()
+option.add_argument("--headless")  # 헤드리스 모드 설정
+option.set_preference('general.useragent.override', user_agent)
+driver = webdriver.Firefox(options=option)
 
 # cgv 접속
 driver.get(url)
