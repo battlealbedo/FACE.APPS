@@ -7,8 +7,7 @@ import telepot
 
 token = "7240374983:AAFEAeYlxEFLIaUzeGRVT-OumAk7FjLbIhA"  # 텔레봇 토큰
 mc = "7265170310"  # 공개방
-# mc = "7265170310" # 나 혼자
-bot = telepot.Bot(token="7240374983:AAFEAeYlxEFLIaUzeGRVT-OumAk7FjLbIhA")
+bot = telepot.Bot(token)
 
 movie = "비틀쥬스 비틀쥬스"
 date = "20240909"
@@ -18,7 +17,19 @@ user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit
 option = webdriver.FirefoxOptions()
 option.add_argument("--headless")  # 헤드리스 모드 설정
 option.set_preference('general.useragent.override', user_agent)
+
+# Firefox 바이너리 경로 추가
+option.binary_location = '/usr/bin/firefox'
+
+# 웹드라이버 설정
 driver = webdriver.Firefox(options=option)
+
+# cgv 접속
+driver.get(url)
+time.sleep(1)
+driver.refresh()
+time.sleep(1)
+ready_printed = False
 
 # cgv 접속
 driver.get(url)
