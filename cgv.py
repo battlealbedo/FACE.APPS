@@ -10,7 +10,7 @@ mc = "7265170310"  # 공개방
 # mc = "7265170310" # 나 혼자
 bot = telepot.Bot(token)
 
-movie = "비틀쥬스"
+movie = "비포"
 date = "20240909"
 url = f"https://m.cgv.co.kr/WebApp/Reservation/schedule.aspx?tc=0013&rc=01&ymd={date}&fst=&fet=&fsrc="
 
@@ -43,7 +43,7 @@ while True:
             # if title_check:                     #일반
             open_check = ("준비중" not in a)
             if open_check:
-                bot.sendMessage(mc, "비틀쥬스 오픈!")
+                bot.sendMessage(mc, "비포 미드나잇 오픈!")
                 print("open")
             else:
                 if not ready_printed:
