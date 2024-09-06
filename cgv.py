@@ -14,22 +14,14 @@ date = "20240909"
 url = f"https://m.cgv.co.kr/WebApp/Reservation/schedule.aspx?tc=0013&rc=01&ymd={date}&fst=&fet=&fsrc="
 
 user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1'
-option = webdriver.FirefoxOptions()
-option.add_argument("--headless")  # 헤드리스 모드 설정
-option.set_preference('general.useragent.override', user_agent)
+chrome_options = webdriver.ChromeOptions()
+chrome_options.add_argument("--headless")  # 헤드리스 모드
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument(f"user-agent={user_agent}")
 
-# Firefox 바이너리 경로 추가
-option.binary_location = '/usr/bin/firefox'
-
-# 웹드라이버 설정
-driver = webdriver.Firefox(options=option)
-
-# cgv 접속
-driver.get(url)
-time.sleep(1)
-driver.refresh()
-time.sleep(1)
-ready_printed = False
+# ChromeDriver 실행
+driver = webdriver.Chrome(options=chrome_options)
 
 # cgv 접속
 driver.get(url)
