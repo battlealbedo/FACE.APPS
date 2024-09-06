@@ -34,5 +34,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y chromium-chromedriver
 
-    - name: Run CGV script
-      run: python /home/runner/work/CGV.APPS/CGV.APPS/cgv.py
+    - name: Activate virtual environment and run CGV script
+      run: |
+        source venv/bin/activate
+        python /home/runner/work/CGV.APPS/CGV.APPS/cgv.py
