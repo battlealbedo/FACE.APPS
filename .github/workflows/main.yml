@@ -36,10 +36,26 @@ jobs:
 
     - name: Create and activate virtual environment
       run: |
-        python -m venv venv
-        source venv/bin/activate
+        python -m venv .venv
+        source .venv/bin/activate
 
     - name: Run CGV script
       run: |
-        source venv/bin/activate
+        source .venv/bin/activate
         python /home/runner/work/CGV.APPS/CGV.APPS/cgv.py
+
+    # Additional commands
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        source .venv/bin/activate
+        pip install -r requirements.txt
+
+    - name: Run script
+      run: |
+        source .venv/bin/activate
+        python C:\Users\user\Downloads\CGV.APPS\cgv.py
