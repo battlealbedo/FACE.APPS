@@ -8,7 +8,7 @@ import telepot
 token = "7240374983:AAFEAeYlxEFLIaUzeGRVT-OumAk7FjLbIhA"  # 텔레봇 토큰
 mc = "7265170310"  # 공개방
 # mc = "7265170310" # 나 혼자
-bot = telepot.Bot(token)
+bot = telepot.Bot(token="7240374983:AAFEAeYlxEFLIaUzeGRVT-OumAk7FjLbIhA")
 
 movie = "비틀"
 date = "20240909"
