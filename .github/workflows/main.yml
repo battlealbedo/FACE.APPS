@@ -21,6 +21,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    # Firefox 및 Geckodriver 설치
+    - name: Set up Firefox and Geckodriver
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y firefox
+        wget https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz
+        tar -xvzf geckodriver-v0.30.0-linux64.tar.gz
+        sudo mv geckodriver /usr/local/bin/
+
     - name: Run CGV script
       run: python /home/runner/work/CGV.APPS/CGV.APPS/cgv.py
-      
