@@ -36,13 +36,3 @@ jobs:
 
     - name: Run CGV script
       run: python /home/runner/work/CGV.APPS/CGV.APPS/cgv.py
-
-<<<<<<< HEAD
-      
-=======
-
-
-
-
-
->>>>>>> b7444dda0b62994db3d05036c9a9e700313d8414
