@@ -1,0 +1,4 @@
+requests
+telepot
+beautifulsoup4
+selenium
