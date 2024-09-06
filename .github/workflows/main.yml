@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
@@ -20,16 +21,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # Chrome 및 ChromeDriver 설치
-    - name: Install Chrome and ChromeDriver
+    - name: Install ChromeDriver
       run: |
         sudo apt-get update
-        sudo apt-get install -y google-chrome-stable
         sudo apt-get install -y chromium-chromedriver
-        sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/local/bin/chromedriver
 
     - name: Run CGV script
       run: python /home/runner/work/CGV.APPS/CGV.APPS/cgv.py
+
 
 
 
