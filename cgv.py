@@ -1,14 +1,14 @@
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 import time
 from bs4 import BeautifulSoup
 import datetime
 import random
 import telepot
 
-token = "7240374983:AAFEAeYlxEFLIaUzeGRVT-OumAk7FjLbIhA"  # 텔레봇 토큰
-mc = "7265170310"  # 공개방
-# mc = "7265170310" # 나 혼자
-bot = telepot.Bot(token="7240374983:AAFEAeYlxEFLIaUzeGRVT-OumAk7FjLbIhA")
+token = "7240374983:AAFEAeYlxEFLIaUzeGRVT-OumAk7FjLbIhA"
+mc = "7265170310"
+bot = telepot.Bot(token=token)
 
 movie = "비틀쥬스 비틀쥬스"
 date = "20240909"
@@ -16,9 +16,10 @@ url = f"https://m.cgv.co.kr/WebApp/Reservation/schedule.aspx?tc=0013&rc=01&ymd={
 
 user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1'
 options = webdriver.ChromeOptions()
-options.add_argument("--headless")  # 헤드리스 모드 설정
-options.add_argument(f'user-agent={user_agent}')
-driver = webdriver.Chrome(options=options)
+options.add_argument("--headless")
+options.add_argument(f"user-agent={user_agent}")
+
+driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 # cgv 접속
 driver.get(url)
@@ -38,9 +39,7 @@ while True:
         title_check = (movie in a)
         imax_check = ("IMAX" in a)
         art_check = ("박찬욱" in a)
-        # if title_check and imax_check:        #IMAX
-        if title_check and art_check:  # 박찬욱관
-            # if title_check:                     #일반
+        if title_check and art_check:
             open_check = ("준비중" not in a)
             if open_check:
                 bot.sendMessage(mc, "비틀쥬스 오픈!")
@@ -56,5 +55,3 @@ while True:
     time.sleep(random.uniform(30, 32))
     driver.get(url)
     time.sleep(random.uniform(1, 2))
-
-
