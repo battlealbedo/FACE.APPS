@@ -10,8 +10,8 @@ mc = "7265170310"  # 공개방
 # mc = "7265170310" # 나 혼자
 bot = telepot.Bot(token)
 
-movie = "비틀"
-date = "20240909"
+movie = "희생"
+date = "20240908"
 url = f"https://m.cgv.co.kr/WebApp/Reservation/schedule.aspx?tc=0013&rc=01&ymd={date}&fst=&fet=&fsrc="
 
 user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1'
@@ -37,11 +37,11 @@ while True:
         print(a)
         title_check = (movie in a)
         imax_check = ("IMAX" in a)
-        # 특정 관만 체크 (예: IMAX)
-        if title_check and imax_check:
+        # 특정 관만 체크 (예: 일반)
+        if title_check:
             open_check = ("준비중" not in a)
             if open_check:
-                bot.sendMessage(mc, "비틀쥬스 IMAX 오픈!")
+                bot.sendMessage(mc, "희생 굿패오픈!")
                 print("open")
             else:
                 if not ready_printed:
