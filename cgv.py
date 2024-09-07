@@ -10,7 +10,7 @@ mc = "7265170310"  # 공개방
 # mc = "7265170310" # 나 혼자
 bot = telepot.Bot(token)
 
-movie = "비포"
+movie = "비틀"
 date = "20240909"
 url = f"https://m.cgv.co.kr/WebApp/Reservation/schedule.aspx?tc=0013&rc=01&ymd={date}&fst=&fet=&fsrc="
 
