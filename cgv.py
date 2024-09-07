@@ -37,13 +37,11 @@ while True:
         print(a)
         title_check = (movie in a)
         imax_check = ("IMAX" in a)
-        art_check = ("박찬욱" in a)
-        # if title_check and imax_check:        #IMAX
-        if title_check and art_check:  # 박찬욱관
-            # if title_check:                     #일반
+        # 특정 관만 체크 (예: IMAX)
+        if title_check and imax_check:
             open_check = ("준비중" not in a)
             if open_check:
-                bot.sendMessage(mc, "비포 미드나잇 오픈!")
+                bot.sendMessage(mc, "비틀쥬스 IMAX 오픈!")
                 print("open")
             else:
                 if not ready_printed:
