@@ -4,8 +4,8 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    timeout-minutes: 480  # 최대 실행 시간을 480분으로 설정
 
     steps:
     - name: Checkout repository
@@ -23,5 +23,6 @@ jobs:
 
     - name: Run CGV script
       run: python /home/runner/work/CGV.APPS/CGV.APPS/cgv.py
+
 
       
