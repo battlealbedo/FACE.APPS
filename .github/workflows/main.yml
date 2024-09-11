@@ -21,5 +21,5 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run CGV script
-      run: python /home/runner/work/CGV.APPS/CGV.APPS/cgv.py
+      run: python /home/runner/work/FACE.APPS/FACE.APPS/cgv.py
 
