@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.alert import Alert
 import time
 import datetime
 import random
@@ -53,7 +54,14 @@ for theater in theater_info:
 while True:
     # 메가박스 오픈 체크
     driver.get("https://m.megabox.co.kr/booking/theater?brchNo=1351")  # 메가박스 URL로 이동
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, f"div#playDate_{date}")))  # 날짜 요소가 나타날 때까지 대기
+    try:
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, f"div#playDate_{date}")))  # 날짜 요소가 나타날 때까지 대기
+    except:
+        try:
+            alert = Alert(driver)
+            alert.dismiss()  # 또는 alert.accept()
+        except:
+            pass
 
     # 날짜 클릭
     date_element = driver.find_element(By.CSS_SELECTOR, f"div#playDate_{date} a")
