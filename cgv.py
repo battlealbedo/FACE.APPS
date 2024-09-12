@@ -1,4 +1,5 @@
 import requests
+from selenium.common.exceptions import UnexpectedAlertPresentException, NoAlertPresentException
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -60,7 +61,13 @@ while True:
     date_element.click()
     time.sleep(5)  # 페이지 로드 대기
 
-    html = driver.page_source
+    try:
+        html = driver.page_source
+    except UnexpectedAlertPresentException:
+        alert = driver.switch_to.alert
+        alert.dismiss()  # 또는 alert.accept()
+        html = driver.page_source  # 알림 처리 후 다시 시도
+
     soup = BeautifulSoup(html, 'html.parser')
     titles = soup.select("div.theater-group")  # 선택자 수정
     for title in titles:
@@ -83,3 +90,4 @@ while True:
     time.sleep(random.uniform(30, 32))
     driver.refresh()
     time.sleep(random.uniform(1, 2))
+
