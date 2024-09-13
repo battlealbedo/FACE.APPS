@@ -15,8 +15,8 @@ mc = "7265170310"  # 공개방
 bot = telepot.Bot(token)
 
 # 영화 및 날짜 설정
-movie = "비긴"
-date = "20240918"
+movie = "조커"
+date = "20241003"
 
 # 사용자 에이전트 설정
 user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1'
@@ -67,10 +67,11 @@ while True:
         a = title.text.strip().replace("\n", "")
         print(a)
         title_check = (movie in a)
-        if title_check:
+        dolby_check = ("Dolby" in a)
+        if title_check and dolby_check:
             open_check = ("준비중" not in a)
             if open_check:
-                bot.sendMessage(mc, "비긴 어게인 오픈!")
+                bot.sendMessage(mc, "코돌비 조커 10/03 오픈!")
                 print("open")
             else:
                 if not ready_printed:
