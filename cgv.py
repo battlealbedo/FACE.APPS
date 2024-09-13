@@ -11,7 +11,7 @@ mc = "7265170310"  # 공개방
 bot = telepot.Bot(token)
 
 movie = "조커"
-date = "20241002"
+date = "20241001"
 url = f"https://m.cgv.co.kr/WebApp/Reservation/schedule.aspx?tc=0013&rc=01&ymd={date}&fst=&fet=&fsrc="
 
 user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1'
