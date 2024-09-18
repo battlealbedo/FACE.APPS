@@ -15,8 +15,8 @@ mc = "7265170310"  # 공개방
 bot = telepot.Bot(token)
 
 # 영화 및 날짜 설정
-movie = "비긴"
-date = "20240918"
+movie = "트랜스포머"
+date = "20240925"
 
 # 사용자 에이전트 설정
 user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1'
@@ -25,8 +25,8 @@ option.add_argument("--headless")  # 헤드리스 모드 설정
 option.set_preference('general.useragent.override', user_agent)
 driver = webdriver.Firefox(options=option)
 
-# 코엑스 메가박스 URL
-megabox_url = "https://m.megabox.co.kr/booking/theater?brchNo=1351"
+# 충주연수 메가박스 URL
+megabox_url = "https://m.megabox.co.kr/booking/theater?brchNo=0068"
 
 # 메가박스 극장 정보 추출
 headers = {'User-Agent': user_agent}
@@ -67,10 +67,11 @@ while True:
         a = title.text.strip().replace("\n", "")
         print(a)
         title_check = (movie in a)
-        if title_check:
+        dolby_check = ("Dolby" in a)
+        if title_check and dolby_check:
             open_check = ("준비중" not in a)
             if open_check:
-                bot.sendMessage(mc, "비긴 어게인 오픈!")
+                bot.sendMessage(mc, "충주 연수 트랜스포머 09/25 오픈!")
                 print("open")
             else:
                 if not ready_printed:
