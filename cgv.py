@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoAlertPresentException, UnexpectedAlertPresentException, TimeoutException
 import time
 import datetime
 import random
@@ -26,7 +27,7 @@ option.set_preference('general.useragent.override', user_agent)
 driver = webdriver.Firefox(options=option)
 
 # 충주연수 메가박스 URL
-megabox_url = "https://m.megabox.co.kr/booking/theater?brchNo=0068"
+megabox_url = "https://m.megabox.co.kr/booking/"
 
 # 메가박스 극장 정보 추출
 headers = {'User-Agent': user_agent}
@@ -50,15 +51,35 @@ else:
 for theater in theater_info:
     print(theater.text.strip())
 
+# 알림창 닫기 함수
+def close_alert():
+    try:
+        WebDriverWait(driver, 10).until(EC.alert_is_present())
+        alert = driver.switch_to.alert
+        alert.accept()  # 또는 alert.dismiss()로 닫기
+        print("Alert closed")
+    except (NoAlertPresentException, TimeoutException):
+        print("No alert present")
+    except UnexpectedAlertPresentException:
+        alert = driver.switch_to.alert
+        alert.dismiss()
+        print("Unexpected alert closed")
+
+ready_printed = False
+
 while True:
     # 메가박스 오픈 체크
-    driver.get("https://m.megabox.co.kr/booking/theater?brchNo=1351")  # 메가박스 URL로 이동
+    driver.get("https://m.megabox.co.kr/booking/theater?brchNo=0068")  # 메가박스 URL로 이동
+    close_alert()  # 알림창 닫기 시도
+
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, f"div#playDate_{date}")))  # 날짜 요소가 나타날 때까지 대기
+    close_alert()  # 알림창 닫기 시도
 
     # 날짜 클릭
     date_element = driver.find_element(By.CSS_SELECTOR, f"div#playDate_{date} a")
     date_element.click()
     time.sleep(5)  # 페이지 로드 대기
+    close_alert()  # 알림창 닫기 시도
 
     html = driver.page_source
     soup = BeautifulSoup(html, 'html.parser')
@@ -71,7 +92,7 @@ while True:
         if title_check and dolby_check:
             open_check = ("준비중" not in a)
             if open_check:
-                bot.sendMessage(mc, "충주 연수 트랜스포머 09/25 오픈!")
+                bot.sendMessage(mc, "충주 연수 돌비 트랜스포머 09/25 오픈!")
                 print("open")
             else:
                 if not ready_printed:
@@ -84,3 +105,4 @@ while True:
     time.sleep(random.uniform(30, 32))
     driver.refresh()
     time.sleep(random.uniform(1, 2))
+    close_alert()  # 알림창 닫기 시도
