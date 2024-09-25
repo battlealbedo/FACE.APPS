@@ -16,7 +16,7 @@ bot = telepot.Bot(token)
 
 # 영화 및 날짜 설정
 movie = "조커"
-date = "20241003"
+date = "20241005"
 
 # 사용자 에이전트 설정
 user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1'
@@ -26,7 +26,7 @@ option.set_preference('general.useragent.override', user_agent)
 driver = webdriver.Firefox(options=option)
 
 # 코엑스 메가박스 URL
-megabox_url = "https://m.megabox.co.kr/booking/theater?brchNo=1351"
+megabox_url = "https://m.megabox.co.kr/"
 
 # 메가박스 극장 정보 추출
 headers = {'User-Agent': user_agent}
@@ -52,7 +52,7 @@ for theater in theater_info:
 
 while True:
     # 메가박스 오픈 체크
-    driver.get("https://m.megabox.co.kr/booking/theater?brchNo=1351")  # 메가박스 URL로 이동
+    driver.get("https://m.megabox.co.kr/booking/theater?brchNo=0019")  # 메가박스 URL로 이동
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, f"div#playDate_{date}")))  # 날짜 요소가 나타날 때까지 대기
 
     # 날짜 클릭
@@ -71,7 +71,7 @@ while True:
         if title_check and dolby_check:
             open_check = ("준비중" not in a)
             if open_check:
-                bot.sendMessage(mc, "코돌비 조커 10/03 오픈!")
+                bot.sendMessage(mc, "남돌비 조커 10/05 오픈!")
                 print("open")
             else:
                 if not ready_printed:
