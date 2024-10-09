@@ -70,7 +70,7 @@ while True:
         if title_check:
             open_check = ("준비중" not in a)
             if open_check:
-                bot.sendMessage(mc, "충주 연수 돌비 스마일2 10/16 오픈!")
+                bot.sendMessage(mc, "충주 연수 스마일2 10/16 오픈!")
                 print("open")
             else:
                 if not ready_printed:
