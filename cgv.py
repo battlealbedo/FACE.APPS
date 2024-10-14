@@ -13,27 +13,32 @@ bot = telepot.Bot(token)
 movie = "롱레그스"
 date = "20241030"
 url = f"https://m.cgv.co.kr/WebApp/Reservation/schedule.aspx?tc=0013&rc=01&ymd={date}&fst=&fet=&fsrc="
-
 user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1'
+
 option = webdriver.FirefoxOptions()
 option.add_argument("--headless")  # 헤드리스 모드 설정
 option.set_preference('general.useragent.override', user_agent)
+
 driver = webdriver.Firefox(options=option)
+
 # cgv 접속
 driver.get(url)
 time.sleep(1)
 driver.refresh()
 time.sleep(1)
+
 ready_printed = False
+
 while True:
     # 오픈 체크
     html = driver.page_source
     soup = BeautifulSoup(html, 'html.parser')
     titles = soup.select("li")
+
     for title in titles:
         a = title.text.strip().replace("\n", "")
         print(a)
-        title_check = (movie in a)
+        title_check = (movie in a) and ("GV" not in a)
         # 특정 관만 체크 (예: movie)
         if title_check:
             open_check = ("준비중" not in a)
@@ -45,6 +50,7 @@ while True:
                     print("준비중")
                     bot.sendMessage(mc, "2024/10/30 롱레그스 오픈준비중!!! 오픈알림 기다리지 말고 미리 들어가서 날짜 계속 클릭해서 새로고침 추천")
                     ready_printed = True
+    
     now = datetime.datetime.now()
     print(now)
     time.sleep(random.uniform(30, 32))
