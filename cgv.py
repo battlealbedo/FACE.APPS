@@ -1,5 +1,4 @@
 import requests
-from selenium.common.exceptions import UnexpectedAlertPresentException, NoAlertPresentException
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -54,20 +53,8 @@ for theater in theater_info:
 while True:
     # 메가박스 오픈 체크
     driver.get("https://m.megabox.co.kr/booking/theater?brchNo=1351")  # 메가박스 URL로 이동
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, f"div#playDate_{date}")))  # 날짜 요소가 나타날 때까지 대기
-
-    # 날짜 클릭
-    date_element = driver.find_element(By.CSS_SELECTOR, f"div#playDate_{date} a")
-    date_element.click()
-    time.sleep(5)  # 페이지 로드 대기
-
-    try:
-        html = driver.page_source
-    except UnexpectedAlertPresentException:
-        alert = driver.switch_to.alert
-        alert.dismiss()  # 또는 alert.accept()
-        html = driver.page_source  # 알림 처리 후 다시 시도
-
+    
+    html = driver.page_source
     soup = BeautifulSoup(html, 'html.parser')
     titles = soup.select("div.theater-group")  # 선택자 수정
     for title in titles:
@@ -90,4 +77,3 @@ while True:
     time.sleep(random.uniform(30, 32))
     driver.refresh()
     time.sleep(random.uniform(1, 2))
-
