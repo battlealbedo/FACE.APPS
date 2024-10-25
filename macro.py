@@ -27,7 +27,7 @@ def login(username, password):
 def main():
     login("hjhj2932", "jhjh0903!")
     WebDriverWait(driver, 20).until(EC.url_contains("https://www.cgv.co.kr/"))  # 로그인 완료 후 URL 확인
-    driver.get("http://www.cgv.co.kr/theaters/default.aspx?areacode=01&theaterCode=0013&date=20241002")  # 지정된 URL로 이동
+    driver.get("http://www.cgv.co.kr/theaters/default.aspx?areacode=01&theaterCode=0013&date=20241001")  # 지정된 URL로 이동
 
     # 스크립트가 종료되지 않도록 대기
     input("브라우저를 종료하려면 엔터 키를 누르세요...")
