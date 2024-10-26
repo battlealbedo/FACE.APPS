@@ -10,9 +10,9 @@ token = "7240374983:AAFEAeYlxEFLIaUzeGRVT-OumAk7FjLbIhA"  # 텔레봇 토큰
 mc = "7265170310"  # 공개방
 bot = telepot.Bot(token)
 
-movie = "아노라"
-date = "20241106"
-url = f"https://m.cgv.co.kr/WebApp/Reservation/schedule.aspx?tc=0013&rc=01&ymd={date}&fst=&fet=&fsrc="
+movie = "롱레그스"
+date = "20241102"
+url = f"https://m.cgv.co.kr/WebApp/Reservation/schedule.aspx?tc=0328&rc=03205&ymd={date}&fst=&fet=&fsrc="
 
 user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1'
 option = webdriver.FirefoxOptions()
@@ -38,12 +38,12 @@ while True:
         if title_check:
             open_check = ("준비중" not in a)
             if open_check:
-                bot.sendMessage(mc, "2024/11/06 아노라 오픈!")
+                bot.sendMessage(mc, "2024/11/02 충주 롱레그스 오픈!")
                 print("open")
             else:
                 if not ready_printed:
                     print("준비중")
-                    bot.sendMessage(mc, "2024/11/06 아노라 오픈준비중!!! 오픈알림 기다리지 말고 미리 들어가서 날짜 계속 클릭해서 새로고침 추천")
+                    bot.sendMessage(mc, "2024/11/02 충주 롱레그스 오픈준비중!!! 오픈알림 기다리지 말고 미리 들어가서 날짜 계속 클릭해서 새로고침 추천")
                     ready_printed = True
     now = datetime.datetime.now()
     print(now)
