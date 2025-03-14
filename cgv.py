@@ -79,6 +79,6 @@ while True:
 
     now = datetime.datetime.now()
     print(now)
-    time.sleep(random.uniform(30, 32))
+    time.sleep(random.uniform(9, 11))
     driver.refresh()
     time.sleep(random.uniform(1, 2))
