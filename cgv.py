@@ -66,7 +66,7 @@ while True:
         print(a)
         title_check = (movie in a)
         dolby_check = ("Dolby" in a)
-        if title_check and dolby_check:
+        if title_check:
             open_check = ("준비중" not in a)
             if open_check:
                 bot.sendMessage(mc, "03/19 컴패니언 오픈!")
