@@ -4,7 +4,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import NoAlertPresentException, TimeoutException, UnexpectedAlertPresentException
 import time
 import datetime
 import random
@@ -16,8 +15,8 @@ mc = "7265170310"  # 공개방
 bot = telepot.Bot(token)
 
 # 영화 및 날짜 설정
-movie = "컴패니언"
-date = "20250319"
+movie = "위플"
+date = "20250407"
 
 # 사용자 에이전트 설정
 user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1'
@@ -42,7 +41,6 @@ for _ in range(retry_count):
         break
     except requests.exceptions.RequestException as e:
         print(f"Error: {e}. Retrying...")
-        time.sleep(2)
 else:
     print("Failed to retrieve Megabox theater information after several attempts.")
     theater_info = []
@@ -51,35 +49,14 @@ else:
 for theater in theater_info:
     print(theater.text.strip())
 
-# 알림창 닫기 함수
-def close_alert():
-    try:
-        WebDriverWait(driver, 10).until(EC.alert_is_present())
-        alert = driver.switch_to.alert
-        alert.accept()  # 또는 alert.dismiss()로 닫기
-        print("Alert closed")
-    except (NoAlertPresentException, TimeoutException):
-        print("No alert present")
-    except UnexpectedAlertPresentException:
-        alert = driver.switch_to.alert
-        alert.dismiss()
-        print("Unexpected alert closed")
-
-ready_printed = False
-
 while True:
     # 메가박스 오픈 체크
-    driver.get("https://m.megabox.co.kr/booking/theater?brchNo1=0068&brchDirectAt=Y")  # 메가박스 URL로 이동
-    close_alert()  # 알림창 닫기 시도
-
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, f"div#playDate_{date}")))  # 날짜 요소가 나타날 때까지 대기
-    close_alert()  # 알림창 닫기 시도
+    driver.get("https://m.megabox.co.kr/booking/theater?brchNo1=0019&brchDirectAt=Y")  # 메가박스 URL로 이동
+    WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, f"div#playDate_{date}")))  # 날짜 요소가 나타날 때까지 대기
 
     # 날짜 클릭
     date_element = driver.find_element(By.CSS_SELECTOR, f"div#playDate_{date} a")
     date_element.click()
-    time.sleep(5)  # 페이지 로드 대기
-    close_alert()  # 알림창 닫기 시도
 
     html = driver.page_source
     soup = BeautifulSoup(html, 'html.parser')
@@ -89,10 +66,10 @@ while True:
         print(a)
         title_check = (movie in a)
         dolby_check = ("Dolby" in a)
-        if title_check:
+        if title_check and dolby_check:
             open_check = ("준비중" not in a)
             if open_check:
-                bot.sendMessage(mc, "03/19 컴패니언 오픈!")
+                bot.sendMessage(mc, "04/07 위플래쉬 남돌비 오픈!")
                 print("open")
             else:
                 if not ready_printed:
@@ -105,4 +82,3 @@ while True:
     time.sleep(random.uniform(9, 11))
     driver.refresh()
     time.sleep(random.uniform(1, 2))
-    close_alert()  # 알림창 닫기 시도
