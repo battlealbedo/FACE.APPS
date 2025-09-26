@@ -8,74 +8,65 @@ import time
 import datetime
 import random
 import telepot
+import re  # 숫자 추출을 위한 정규식
 
 # 텔레봇 설정
-token = "7240374983:AAFEAeYlxEFLIaUzeGRVT-OumAk7FjLbIhA"  # 텔레봇 토큰
-mc = "7265170310"  # 공개방
+token = "7240374983:AAFEAeYlxEFLIaUzeGRVT-OumAk7FjLbIhA"
+mc = "7265170310"
 bot = telepot.Bot(token)
 
-# 영화 및 날짜 설정
-movie = "위플"
-date = "20250407"
+# 감지하고 싶은 날짜 (숫자만 기준으로 감지)
+target_day = "8"
 
 # 사용자 에이전트 설정
 user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1'
 option = webdriver.FirefoxOptions()
-option.add_argument("--headless")  # 헤드리스 모드 설정
+option.add_argument("--headless")
 option.set_preference('general.useragent.override', user_agent)
 driver = webdriver.Firefox(options=option)
 
 # 코엑스 메가박스 URL
 megabox_url = "https://m.megabox.co.kr/booking/"
-
-# 메가박스 극장 정보 추출
 headers = {'User-Agent': user_agent}
 retry_count = 5
 
 for _ in range(retry_count):
     try:
         response = requests.get(megabox_url, headers=headers)
-        response.raise_for_status()  # HTTP 에러가 발생하면 예외를 발생시킴
+        response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
         theater_info = soup.find_all('li', {'class': 'theater-item'})
         break
     except requests.exceptions.RequestException as e:
         print(f"Error: {e}. Retrying...")
 else:
-    print("Failed to retrieve Megabox theater information after several attempts.")
+    print("Failed to retrieve Megabox theater information.")
     theater_info = []
 
-# 모든 메가박스 극장 정보 출력
+# 극장 정보 출력
 for theater in theater_info:
     print(theater.text.strip())
 
+# 루프 시작
 while True:
-    # 메가박스 오픈 체크
-    driver.get("https://m.megabox.co.kr/booking/theater?brchNo1=0019&brchDirectAt=Y")  # 메가박스 URL로 이동
-    WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, f"div#playDate_{date}")))  # 날짜 요소가 나타날 때까지 대기
+    driver.get("https://m.megabox.co.kr/booking/theater?brchNo1=0019&brchDirectAt=Y")
+    WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, "#playDateList .item"))
+    )
 
-    # 날짜 클릭
-    date_element = driver.find_element(By.CSS_SELECTOR, f"div#playDate_{date} a")
-    date_element.click()
+    date_elements = driver.find_elements(By.CSS_SELECTOR, "#playDateList .item")
+    for element in date_elements:
+        date_text = element.text.strip().replace("\n", "")
+        numbers_only = re.sub(r"[^0-9]", "", date_text)
 
-    html = driver.page_source
-    soup = BeautifulSoup(html, 'html.parser')
-    titles = soup.select("div#scheduleListWrap div.reserveBody")  # 선택자 수정
-    for title in titles:
-        a = title.text.strip().replace("\n", "")
-        print(a)
-        title_check = (movie in a)
-        dolby_check = ("Dolby" in a)
-        if title_check and dolby_check:
-            open_check = ("준비중" not in a)
-            if open_check:
-                bot.sendMessage(mc, "04/07 위플래쉬 남돌비 오픈!")
-                print("open")
-            else:
-                if not ready_printed:
-                    print("준비중")
-                    bot.sendMessage(mc, "오픈준비중!!! 오픈알림 기다리지 말고 미리 들가서 날짜 계속 클릭해서 새로고침 추천")
-                    ready_printed = True
+        print(f"[디버그] 원래 텍스트: '{element.text.strip()}'")
+        print(f"[디버그] 줄바꿈 제거 후: '{date_text}'")
+        print(f"[디버그] 숫자만 추출: '{numbers_only}'")
+
+        # 숫자 기준 날짜 오픈 체크
+        if numbers_only == target_day:
+            bot.sendMessage(mc, f"{target_day}일 날짜 오픈됨!")
+            print("날짜 오픈 확인")
 
     now = datetime.datetime.now()
     print(now)
